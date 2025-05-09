@@ -1,0 +1,4 @@
+You are given 68 identical looking balls, each with a distinct weight. You are given
+a common balance using which you can compare weights of any pair of balls with
+a single measurement. Describe how you would identify both the heaviest and the
+lightest balls by using at most 100 measurements in total.

@@ -1,0 +1,143 @@
+C1
+ Consider a reservoir, fitted with a set of taps and drains. The partial pseudocode
+given below takes as input:
+L capacity of the reservoir in litres
+T number of taps attached to the reservoir
+D number of drains attached to the reservoir
+ti time in minutes that it takes to fill an initially empty reservoir if all drains
+are stopped, and only the i-th tap is opened (1 ≤ i ≤ T)
+dj time in minutes that it takes to drain an initially full
+reservoir if all taps are shut off, and only the j-th drain is opened
+(1 ≤ j ≤ D)
+Fill in the blanks below, so that the statements printed by the pseudocode are
+correct. Do not copy the pseudocode; simply write the serial number of each blank
+(I, II, . . ., VI), and your corresponding answer.
+Pseudocode:
+Initially, set variables X and Y to 0.
+for i in {1, 2, 3, . . . , T} X ←− X+ (I) .
+for j in {1, 2, 3, . . . , D} Y ←− Y + (II) .
+If X (III) Y
+then print “A partially empty reservoir never fills up if all taps and drains are
+kept open.”
+else print “An initially empty reservoir fills up in (IV) minutes if all taps
+and drains are kept open.”
+If X (V) Y
+then print “A partially full reservoir never becomes empty if all taps and drains
+are kept open.”
+else print “An initially full reservoir becomes empty in (VI) minutes if all
+taps and drains are kept open.”
+
+
+
+C2
+ You are given 68 identical looking balls, each with a distinct weight. You are given
+a common balance using which you can compare weights of any pair of balls with
+a single measurement. Describe how you would identify both the heaviest and the
+lightest balls by using at most 100 measurements in total.
+
+
+
+
+C3
+Let A = {a1, a2, . . . , an} and B = {b1, b2, . . . bm} be two sorted arrays of n and m
+numbers, respectively. Devise an algorithm to count the number of pairs (i, j), 1 ≤
+i ≤ n, 1 ≤ j ≤ m, so that ai > bj . The efficiency of your algorithm will be counted
+in terms of the number of comparisons you perform between the elements of A and
+B. For full credit, your algorithm should perform O(n + m) comparisons.
+
+
+C4
+Let k be a positive integer, and n = 2k − 1. Let X = {1, 2, . . . , n} be arranged as
+a min-heap stored in a complete binary tree, T.
+(a) What can be the smallest possible value that can be stored at a leaf node of
+T? Prove your result.
+(b) Define the level of the root of the min-heap T to be 1. What can be the
+maximum possible value that can be stored at level 2 of T? Prove your
+result.
+
+
+
+C5. 
+For any undirected connected graph G, let χ(G) be the minimum number of colours
+needed to colour all the vertices of G in such a way that no two adjacent vertices
+have the same colour. Prove that for every vertex v of G, there exists a path of
+length χ(G) − 1 starting from v. A path of length k is a sequence of k + 1 distinct
+vertices v1, v2, . . . , vk+1 such that (vi, vi+1) is an edge for 1 ≤ i ≤ k.
+
+
+
+
+C6. 
+A 32-bit pattern (p31, . . . , p0) is interpreted as a floating point number as follows.
+  • The sign bit is s = p31. If s = 0, the number is considered positive, otherwise
+    it is considered negative.
+  • The 8-bit part (p30, . . . , p23) is the exponent biased by 127. That is, if these
+    bits represent an integer e, then the corresponding term would be considered as 2e−127. The all-zero and the
+    all-one bit patterns are not considered valid for these eight bits.
+  • The mantissa part m = (p22, . . . , p0) would be interpreted as 1.m, where the
+    leftmost 1 is implicitly understood.
+With the above understanding, the decimal value of the 32-bit pattern becomes
+(−1)s × 2e−127 × 1.m. For example, consider the 32-bit pattern (1 1011 0110 011
+0000 0000 0000 0000 0000), which is actually (−1)1 ×210110110−01111111 ×1.011
+as represented with bits, the same as −1.375 × 255 in decimal.
+  (a) Suggest how the decimal zero can be represented in the above format.
+  (b) Describe the largest positive value in this format.
+  (c) Describe the smallest non-zero positive value in this format.
+  (d) Given two such bit patterns (x31, . . . , x0),(y31, . . . , y0) in the above format,
+  construct the digital circuit for their addition.
+
+
+
+
+C7. 
+Consider the alphabet Σ = {0, 1}.
+  (a) Design a finite automaton accepting the language
+      A = {0kw0k | k ≥ 1 and w ∈ Σ∗}.
+  (b) Show that no finite automaton accepts the language
+      B = {0k1w0k | k ≥ 1 and w ∈ Σ∗}.
+
+
+
+
+C8. 
+Let P1, P2, . . . , P20 be a set of 20 cooperating processes, all of which have access
+to a shared integer X. For i ∈ {1, 2, . . . , 20}, the process Pi calls do something(i),
+the code for which is given below.
+    shared int X = 0;
+    void do_something(int i)
+    {
+      printf("%d %d", i, X);
+      X = X + i;
+    }
+(a) What is the minimum possible final value of X? Justify your answer.
+(b) Your task is to synchronise the execution of the above
+processes using semaphores so that the combined output of all 20 processes
+is as follows.
+1 1 2 3 3 6 ... 20 210
+  i. Show how you would declare and initialise the necessary semaphore(s). Follow the syntax used in the examples given below.
+      shared semaphore S = 1;
+      shared semaphore mutex[m] = {0, 0, ..., 0};
+  ii. Modify the body of the above function by inserting appropriate wait()
+  and signal() system calls so that the messages are printed in the desired
+  order.
+
+
+
+C9. 
+Design a synchronous counter that has an Enable input. When Enable = 1, it
+generates a binary sequence equivalent to 0, 3, 1, 2, 0, 3, 1, 2, . . . in decimal. When
+Enable = 0, the counter remains in its current state. Use J-K flip flops only and a
+minimal number of AND-OR-NOT gates in your design. Argue why your gate
+count is minimal. Modify your circuit without changing the input-output behaviour, so that it uses universal gates only.
+
+
+
+
+C10. 
+Consider sending the 6-bit message 101000 using Hamming codes for single-bit
+error-correction.
+    (a) Calculate the codeword for this message. Use even parity.
+    (b) Invert the last bit of the codeword and then show how the recipient can correct
+    this inverted bit.
+    (c) Invert the first bit of the codeword and then show how the recipient can
+    correct this inverted bit.

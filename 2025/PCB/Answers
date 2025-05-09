@@ -1,0 +1,102 @@
+C1.
+Whether the reservoir fills up or not when all taps and drains are open.
+How long it takes to fill an initially empty reservoir under these conditions.
+Whether a partially full reservoir empties or not when all taps and drains are open.
+How long it takes to empty an initially full reservoir under these conditions.
+
+Calculating Rates
+First, let's think about the rates at which taps fill and drains empty the reservoir.
+
+Filling rate of a tap: If tap i can fill the reservoir in ti minutes, 
+  its filling rate is L / ti litres per minute (since it fills L litres in ti minutes).
+Emptying rate of a drain: If drain j can empty the reservoir in dj minutes, 
+  its emptying rate is L / dj litres per minute (since it removes L litres in dj minutes).
+
+When all taps and drains are open:
+  Total filling rate (X): Sum of all taps' filling rates.
+  Total emptying rate (Y): Sum of all drains' emptying rates.
+
+Filling the Blanks
+Now, let's go through each blank one by one.
+
+Blank (I): Calculating X (Total Filling Rate)
+The variable X is initialized to 0, and then for each tap i, we add something to X. Since X represents the total filling rate, for each tap i, we should add its filling rate, which is L / ti.
+    So, X ← X + (L / ti).
+But looking at the units, L / ti is litres per minute, which is correct for a rate.
+  Answer for I: L / ti
+
+Blank (II): Calculating Y (Total Emptying Rate)
+Similarly, Y is initialized to 0, and for each drain j, we add its emptying rate to Y. The emptying rate for drain j is L / dj.
+    So, Y ← Y + (L / dj).
+  Answer for II: L / dj
+
+Blank (III): Condition for Reservoir Never Filling Up
+The first conditional checks whether the reservoir will never fill up when starting empty with all taps and drains open. This happens if the total emptying rate is greater than or equal to the total filling rate, i.e., Y >= X.
+But the phrasing is "A partially empty reservoir never fills up if all taps and drains are kept open." This implies that the drains are at least as effective as the taps, so Y ≥ X.
+However, the symbol is (III) Y, and the condition is If X (III) Y. To make the statement true when Y >= X, the operator should be <=.
+Because if X <= Y, then the net rate is X - Y <= 0, meaning the reservoir doesn't fill up.
+  Answer for III: <=
+
+
+Blank (IV): Time to Fill Initially Empty Reservoir
+If X > Y, the net filling rate is X - Y litres per minute. To fill the reservoir from empty (0 litres) to full (L litres), the time taken is L / (X - Y).
+  Answer for IV: L / (X - Y)
+
+Blank (V): Condition for Reservoir Never Emptying
+The second conditional is about whether a partially full reservoir never becomes empty with all taps and drains open. This is the opposite scenario: the reservoir doesn't empty if the filling rate is at least as much as the emptying rate, i.e., X >= Y.
+The statement is "A partially full reservoir never becomes empty if all taps and drains are kept open." This is true if X ≥ Y, meaning the net rate is X - Y >= 0.
+The condition is If X (V) Y. To make the statement true when X >= Y, the operator should be >=.
+  Answer for V: >=
+
+Blank (VI): Time to Empty Initially Full Reservoir
+If Y > X, the net emptying rate is Y - X litres per minute. To empty the reservoir from full (L litres) to empty (0 litres), the time taken is L / (Y - X).
+  Answer for VI: L / (Y - X)
+
+
+
+
+C2.
+68 balls: 34 pairs.
+
+For each pair:
+  Compare the two: 1.
+  Compare heavier with heaviest: 1.
+  Compare lighter with lightest: 1.
+
+Initially, heaviest and lightest can be the first pair's heavy and light.
+  Then, for next 33 pairs: 3 comparisons each: 99.
+  Total: 1 (first pair) + 99 = 100.
+
+Here's how:
+
+Compare B1 and B2:
+Suppose B1 > B2: heaviest = B1, lightest = B2. (1 comparison)
+For pairs (B3,B4) to (B67,B68): 33 pairs.
+
+For each:
+  Compare the two: e.g., B3 vs B4. Suppose B3 > B4.
+  Compare B3 with heaviest: if B3 > heaviest, update. (1)
+  Compare B4 with lightest: if B4 < lightest, update. (1)
+
+Total per pair: 3.
+  33 pairs: 99.
+  Total comparisons: 1 (initial) + 99 = 100.
+
+
+
+C3.
+For each element in A, we want to count how many elements in B are less than it. Because both arrays are sorted, we can do this with a single pass:
+  
+  Initialize i = 0 (for A), j = 0 (for B), count = 0.
+  While i < n and j < m:
+  
+  If A[i] > B[j]:
+    All elements before A[i] are <= A[i], but since A is sorted in ascending order, previous A's are <= current A[i], but we're interested in current A[i] > B[j].
+    Since B is sorted, all B[k] for k <= j are <= B[j], but we've already counted those where A[i] > B[k] in previous steps.
+    Actually, since we're moving j forward when A[i] > B[j], the number of B's less than A[i] is j (since B is sorted up to j-1 are all < A[i]).
+    So we can add j to count and increment i.
+  Else (A[i] <= B[j]):
+    Increment j to find a larger B[j] that might be < A[i].
+  If we've reached the end of B (j == m), all remaining A[i] are > all B[j], so add (n - i) * m to count.
+  
+  Return count.

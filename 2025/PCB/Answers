@@ -85,18 +85,848 @@ Total per pair: 3.
 
 
 C3.
-For each element in A, we want to count how many elements in B are less than it. Because both arrays are sorted, we can do this with a single pass:
-  
-  Initialize i = 0 (for A), j = 0 (for B), count = 0.
+Initialize two pointers, i = 0 (for A) and j = 0 (for B).
+  Initialize count = 0.
   While i < n and j < m:
-  
-  If A[i] > B[j]:
-    All elements before A[i] are <= A[i], but since A is sorted in ascending order, previous A's are <= current A[i], but we're interested in current A[i] > B[j].
-    Since B is sorted, all B[k] for k <= j are <= B[j], but we've already counted those where A[i] > B[k] in previous steps.
-    Actually, since we're moving j forward when A[i] > B[j], the number of B's less than A[i] is j (since B is sorted up to j-1 are all < A[i]).
-    So we can add j to count and increment i.
-  Else (A[i] <= B[j]):
-    Increment j to find a larger B[j] that might be < A[i].
-  If we've reached the end of B (j == m), all remaining A[i] are > all B[j], so add (n - i) * m to count.
+    If A[i] > B[j]:
+      Increment j by 1.
+  Else:
+    Add j to count.
+    Increment i by 1.
+  If there are remaining elements in A (i < n), 
+    add (n - i) * m to count (since all remaining A[i] are greater than all B[j]).
   
   Return count.
+
+def count_pairs(A, B):
+    n = len(A)
+    m = len(B)
+    i = j = count = 0
+    while i < n and j < m:
+        if A[i] > B[j]:
+            j += 1
+        else:
+            count += j
+            i += 1
+    if i < n:
+        count += (n - i) * m
+    return count
+
+
+Example: A = [1,3,5], B = [2,4,6]
+
+i=0,j=0: A[0]=1 > B[0]=2? No. count += j(0). count=0. i+=1 --> i=1.
+i=1,j=0: A[1]=3 > B[0]=2? Yes. j+=1 --> j = 1.
+i=1,j=1: A[1]=3 > B[1]=4? No. count += j(1). count=1. i+=1 --> i=2.
+i=2,j=1: A[2]=5 > B[1]=4? Yes. j+=1 --> j = 2.
+i=2,j=2: A[2]=5 > B[2]=6? No. count += j(2). count=3. i+=1 --> i=3.
+i == n. Done.
+Correct count: (1>2 no), (1>4 no), (1>6 no) → 0
+(3>2), (3>4 no), (3>6 no) → 1
+(5>2), (5>4), (5>6 no) → 2
+Total: 0+1+2=3.
+
+
+
+
+C4.
+We have:
+  A positive integer k.
+  n = 2^k - 1, which means n is one less than a power of 2. This is the number of nodes in a complete binary tree (specifically, a perfect binary tree) with k levels.
+  X = {1, 2, ..., n}: These are the numbers we're arranging into a min-heap stored in a complete binary tree T.
+
+A min-heap is a binary tree where:
+  The value at each node is less than or equal to the values at its children.
+  The tree is complete, meaning all levels are fully filled except possibly the last, which is filled from left to right.
+
+Part (A): What can be the smallest possible value that can be stored at a leaf node of T? Prove your result.
+
+Approach:
+  In a min-heap, the smallest value is at the root. The next smallest values are at the next levels, and so on. 
+  Leaf nodes are at the bottom of the heap. To find the smallest possible value at a leaf, 
+  we need to arrange the numbers such that as many small numbers as possible are pushed up to the higher levels (non-leaves), 
+  leaving the smallest possible numbers at the leaves.
+
+  Given that, the smallest possible value at a leaf would be when we've placed the smallest possible numbers in the non-leaf positions, forcing the next smallest to be at the leaves.
+
+Calculating Non-Leaf Nodes:
+  In a complete binary tree with n = 2^k - 1 nodes:
+  Number of leaf nodes: 2^(k-1) (since the last level has 2^(k-1) nodes).
+  Number of non-leaf (internal) nodes: n - 2^(k-1) = (2^k - 1) - 2^(k-1) = 2^(k-1) - 1.
+    So, there are 2^(k-1) - 1 non-leaf nodes.
+
+Thus, the smallest number at a leaf would be the next number after assigning the smallest 2^(k-1) - 1 numbers to non-leaves:
+    Smallest leaf value = (2^(k-1) - 1) + 1
+                         = 2^(k-1).
+
+Verification with Example:
+
+Let's take k=3, so n=7 (since 2^3 - 1 = 7).
+  Non-leaf nodes: 2^(3-1) - 1 = 3 (positions: root and its two children)
+  Assign smallest 3 numbers to non-leaves: 1, 2, 3.
+  Leaves will then have the next numbers: 4, 5, 6, 7.
+    The smallest leaf value is 4, which is 2^(3-1) = 4.
+
+Another example, k=2, n=3:
+  Non-leaves: 2^(2-1) - 1 = 1 (just the root).
+  Assign 1 to root.
+  Leaves: 2, 3.
+    Smallest leaf is 2, which is 2^(2-1) = 2.
+
+The smallest possible value at a leaf node is 2^(k-1).
+
+
+
+Part (B): Define the level of the root of the min-heap T to be 1. What can be the
+          maximum possible value that can be stored at level 2 of T? Prove your
+          result.
+
+ in a complete binary tree with n = 2^k - 1, it's perfect, 
+  so both subtrees of root are complete with 2^(k-1) - 1 nodes each. 
+  So total is 1 (root) + 2 (level 2) + 2*(2^(k-1) - 1) (subtrees) = 2^k - 1 = n. So correct.
+
+The subtrees must contain numbers larger than the level 2 nodes. So the level 2 nodes must be less than all numbers in their subtrees. 
+To maximize level 2 nodes, they should be as large as possible while having enough larger numbers to fill subtrees.
+    the maximum at level 2 is n - 2^(k-1).
+
+Example:
+  Let k=3, n=7.
+  Level 1: 1 node.
+  Level 2: 2 nodes.
+  Level 3: 4 nodes (leaves).
+
+To maximize level 2, assign the largest possible to level 2 that can have their children larger. 
+The largest possible is when level 2 nodes are 3 and 4, with leaves being larger, but leaves are 5,6,7, etc., 
+but we have only 4 leaves. Maybe assign level 2 as 3 and 4, leaves as 5,6,7,... but we have only 7 numbers.
+
+Alternatively, assign root as 1, level 2 as 5 and 6, then their children must be larger, but the only larger is 7, which can't cover both. So not possible.
+Thus, maximum at level 2 is when one is as large as possible, e.g., root 1, level 2: 2 and 3, leaves: 4,5,6,7. 
+    Then max at level 2 is 3.
+
+
+
+
+C5.
+
+We have an undirected connected graph \( G \). 
+- **χ(G)**: This is the chromatic number of \( G \), which is the smallest number of colors needed to color the vertices of \( G \) such that no two adjacent vertices share the same color (a proper coloring).
+- **Path of length \( k \)**: A sequence of \( k + 1 \) distinct vertices where each consecutive pair is connected by an edge. So, a path of length \( k \) has \( k \) edges and \( k + 1 \) vertices.
+
+The claim is: For every vertex \( v \) in \( G \), there exists a path starting at \( v \) with length \( χ(G) - 1 \).
+In other words, from any vertex, you can walk along edges to visit \( χ(G) \) distinct vertices in sequence without backtracking.
+
+### Correct Approach: Using the Definition of χ(G)
+A better approach is to use the fact that  χ(G)  is the smallest number such that the graph is \( χ(G) \)-colorable. 
+If from some v , no path of length  χ(G) - 1  exists, then the graph can be colored with fewer colors, contradicting the minimality of  χ(G) .
+Here's how:
+
+  1. Suppose for some \( v \), the longest path starting at v  has length < χ(G) - 1 , i.e., at most χ(G) - 2.
+  2. Then, the number of distinct vertices in any path from  v is at most  χ(G) - 1 .
+  3. Consider the set of vertices reachable from  v . Their distance from v is at most  χ(G) - 2 .
+  4. Assign to each vertex its distance from  v modulo ( χ(G) - 1 ). This uses at most χ(G) - 1 colors.
+     - Adjacent vertices differ in distance by at most 1, so their colors differ by at most 1 modulo(χ(G) - 1), ensuring no two adjacent vertices share the same color.
+  5. Thus, we've properly colored G with ( χ(G) - 1) colors, contradicting the definition of χ(G)
+
+Therefore, our assumption is false, and such a path must exist.
+
+### Finalizing the Proof
+**Theorem**: For every vertex \( v \) in a connected undirected graph \( G \), there exists a path of length \( χ(G) - 1 \) starting at \( v \).
+**Proof**:
+Assume, for contradiction, that there exists a vertex \( v \) in \( G \) such that the longest path starting at \( v \) has length less than \( χ(G) - 1 \), 
+i.e., at most \( χ(G) - 2 \). This means that any path starting at \( v \) visits at most \( χ(G) - 1 \) distinct vertices.
+
+Consider the BFS tree rooted at \( v \). The maximum distance from \( v \) in this tree is at most \( χ(G) - 2 \). 
+Assign to each vertex \( u \) the color equal to its distance from \( v \) modulo \( χ(G) - 1 \). This uses at most \( χ(G) - 1 \) colors.
+
+Now, observe the coloring:
+- If two vertices \( u \) and \( w \) are adjacent, their distances from \( v \) differ by at most 1 (since they are connected by an edge).
+- Therefore, their colors (distance mod \( χ(G) - 1 \)) differ by at most 1, and since \( χ(G) - 1 ≥ 2 \) (as \( χ(G) ≥ 2 \) for any connected graph with at least one edge), adjacent vertices cannot have the same color.
+
+Thus, we've constructed a proper coloring of \( G \) using at most \( χ(G) - 1 \) colors, contradicting the definition of \( χ(G) \) as the minimal number of colors needed.
+Hence, our initial assumption is false, and there must exist a path of length \( χ(G) - 1 \) starting at \( v \) for every vertex \( v \) in \( G \).
+
+### Conclusion
+Through contradiction and utilizing the properties of BFS and graph coloring, 
+we've shown that in any connected undirected graph \( G \), from every vertex \( v \), 
+there must exist a path of length \( χ(G) - 1 \). This path ensures that the graph's chromatic number is indeed the smallest possible by preventing a proper coloring with fewer colors.
+
+
+
+C6.
+
+(a) Representing Decimal Zero in the Given Format
+
+**Understanding the Problem:**
+The given floating-point format is similar to the IEEE 754 single-precision format but with some differences. Specifically:
+  - **Sign bit (s):** p31 (0 for positive, 1 for negative).
+  - **Exponent (e):** 8 bits (p30 to p23), biased by 127. Valid exponents range from 1 to 254 (since all zeros and all ones are invalid).
+  - **Mantissa (m):** 23 bits (p22 to p0), interpreted as 1.m (implicit leading 1).
+
+The value is calculated as:  (-1)^s * 2^{e-127} * 1.m 
+
+**Representing Zero:**
+In IEEE 754, zero is represented by an all-zero exponent and mantissa (with the sign bit determining +0 or -0). However, in this format, an all-zero exponent is **invalid**. Therefore, we cannot use the all-zero exponent to represent zero.
+
+**Possible Solutions:**
+1. **Reserved Exponent and Mantissa:** We could define a specific combination where the exponent is not all zeros or all ones, and the mantissa is all zeros, to represent zero. For example, exponent = 00000001 (e=1), mantissa = 000...000:
+   - Value =  (-1)^s * 2^{1-127} * 1.0 = m 2^{-126} , which is not zero.
+   - This doesn't work.
+
+2. **Special Interpretation:** Since the format doesn't support zero directly, we might need to define that zero cannot be represented exactly, which is impractical.
+
+3. **Alternative Approach:** Perhaps the format allows for an exception where when the mantissa is all zeros, the number is considered zero regardless of the exponent (but exponent must be valid). However, this contradicts the given interpretation where 1.m is always implied.
+
+Given the constraints, it seems the format as described **cannot represent zero exactly** because:
+- Any valid exponent (1 to 254) with mantissa 0 gives \( \pm 2^{e-127} \times 1.0 \), which is never zero.
+- All-zero or all-one exponents are invalid.
+
+**Conclusion:**
+The format lacks a representation for zero. To include zero, the format would need to allow the exponent to be all zeros (like IEEE 754), where it represents subnormal numbers and zero. Since that's not allowed here, zero cannot be represented.
+In the given format, it is not possible to represent decimal zero exactly because all valid exponent values (1 to 254) with any mantissa produce non-zero values, and the all-zero exponent is invalid.
+
+
+(b) Largest Positive Value in This Format
+
+**Approach:**
+To find the largest positive value:
+  1. **Sign bit (s):** 0 (positive).
+  2. **Exponent (e):** Largest valid exponent is 254 (since 255 is all ones, which is invalid).
+     -  e - 127 = 254 - 127 = 127 .
+  3. **Mantissa (m):** Largest mantissa is all ones (23 bits), i.e.,  m = 1.111...  (23 ones after the binary point).
+     -  1.m = 1 + sum({i=1}^{23}) 2^{-i} = 2 - 2^{-23} .
+
+**Calculation:**
+val = (-1)^0 * 2^{127} * (2 - 2^{-23}) = 2^{128} - 2^{104} 
+
+**Final Answer for (b):**
+The largest positive value is represented by:
+- Sign bit: 0
+- Exponent: 11111110 (254)
+- Mantissa: 11111111111111111111111 (23 ones)
+Its decimal value is \( 2^{128} - 2^{104} \).
+
+(c) Smallest Non-zero Positive Value in This Format
+
+**Approach:**
+The smallest non-zero positive value is the smallest positive normalized number (since subnormals are not supported due to no all-zero exponent):
+  1. **Sign bit (s):** 0 (positive).
+  2. **Exponent (e):** Smallest valid exponent is 1 (since 0 is invalid).
+     -e - 127 = 1 - 127 = -126.
+  3. **Mantissa (m):** Smallest mantissa is all zeros, i.e.,  1.m = 1.0 .
+
+**Calculation:**
+ = (-1)^0 * 2^{-126} * 1.0 = 2^{-126} \]
+
+**Final Answer for (c):**
+The smallest non-zero positive value is represented by:
+- Sign bit: 0
+- Exponent: 00000001 (1)
+- Mantissa: 00000000000000000000000 (23 zeros)
+Its decimal value is  2^{-126} 
+
+
+(d) Digital Circuit for Addition of Two Such Floating-Point Numbers
+
+**Steps for Floating-Point Addition:**
+1. **Extract Components:**
+   - For each number (X and Y), extract sign (s_x, s_y), exponent (e_x, e_y), and mantissa (m_x, m_y).
+2. **Unpack Mantissas:**
+   - Prepend an implicit '1' to the mantissas: \( 1.m_x \) and \( 1.m_y \).
+3. **Align Exponents:**
+   - Compare exponents and shift the smaller mantissa right by the exponent difference to align binary points.
+4. **Sign Handling:**
+   - If signs differ, perform subtraction; else, addition.
+   - Determine the sign of the result based on magnitudes and signs.
+5. **Add/Subtract Mantissas:**
+   - Perform binary addition/subtraction on the aligned mantissas.
+6. **Normalize Result:**
+   - Shift the result mantissa to get a leading '1' and adjust the exponent accordingly.
+   - Handle overflow/underflow during normalization.
+7. **Round:**
+   - Round the mantissa to fit 23 bits.
+8. **Pack Result:**
+   - Combine the result sign, exponent, and mantissa into the 32-bit format.
+
+**Circuit Components:**
+1. **Extraction:**
+   - Separate 32-bit inputs into sign, exponent, mantissa parts using wires.
+2. **Exponent Comparison:**
+   - Subtract exponents to find the difference (use a subtractor).
+   - Determine which exponent is larger (comparator).
+3. **Mantissa Alignment:**
+   - Use a barrel shifter to shift the smaller mantissa right by the exponent difference.
+4. **Addition/Subtraction:**
+   - Use a sign-determining logic to decide operation.
+   - Use a carry-lookahead adder/subtractor for the mantissas.
+5. **Normalization:**
+   - Leading zero detection (LZD) to find how much to shift.
+   - Barrel shifter for shifting the mantissa.
+   - Adjust exponent based on shift amount (adder).
+6. **Rounding:**
+   - Logic to round based on guard, round, sticky bits.
+7. **Packing:**
+   - Combine parts into the output 32-bit word.
+
+**Potential Challenges:**
+- Handling overflow/underflow during exponent adjustment.
+- Efficient shifting and rounding.
+- Sign determination when signs differ.
+
+**Final Answer for (d):**
+The digital circuit for adding two 32-bit floating-point numbers in the given format involves the following steps:
+1. **Extract** sign, exponent, and mantissa from both inputs.
+2. **Compare exponents** to determine the larger one and calculate the shift amount.
+3. **Align mantissas** by shifting the smaller one right by the exponent difference.
+4. **Add/Subtract mantissas** based on the signs, handling sign logic appropriately.
+5. **Normalize the result** by shifting the mantissa and adjusting the exponent.
+6. **Round the mantissa** to fit 23 bits.
+7. **Pack** the result sign, exponent, and mantissa into the output.
+
+
+
+C7.
+(a)
+🔍 Step 1: Understanding the Language
+The language contains:
+    A prefix of k zeros (0^k)
+    Followed by an arbitrary string w ∈ Σ* (any combination of 0s and 1s)
+    Followed by exactly k zeros at the end (0^k again)
+With the constraint: k ≥ 1
+
+Examples in the Language A:
+    0w0 (k = 1) → valid if w ∈ Σ*
+    00w00 (k = 2) → valid if w ∈ Σ*
+    0001010 000 (k = 3, w = 1010) → valid
+
+❌ Step 2: Is A Regular?
+This language enforces a matching number of 0s before and after w, which is a kind of counting. 
+A finite automaton has no memory (i.e., cannot count arbitrarily many things), 
+so it cannot match an arbitrary number of 0s on both sides of w.
+
+This is similar in nature to the classic non-regular language:
+  { a^n b^n | n ≥ 1 }
+
+So:
+Language A requires the number of 0s at the beginning to match the number at the end.
+Since w can be arbitrarily long, the automaton can't just “remember” how many 0s it saw without using a stack or similar.
+
+✅ Step 3: Conclusion
+Language A is not regular, and hence:
+❌ A finite automaton cannot accept this language.
+
+A PDA CAN ACCEPT THIS
+
+Think of the PDA as a machine with a memory stack. It reads an input string symbol by symbol and can push or pop from a stack to remember things.
+We’ll use the stack to count how many 0s we see in the beginning, and later, we’ll pop one 0 from the stack each time we see a 0 at the end of the string. 
+This way, we ensure the number of 0s at the start matches the number of 0s at the end.
+We’ll ignore the w part in the middle — the PDA just reads it without using the stack.
+
+✅ Example: Accept 0001011000
+This string matches 0ᵏ w 0ᵏ for k = 3, w = 1011.
+  First 3 0s → push each onto the stack
+  Then process the w = 1011 → just skip these (no stack operations)
+  Then final 3 0s → for each one, pop a 0 from the stack
+
+If the stack ends up empty at the right time → accept!
+
+🤖 PDA Components
+Let’s define a PDA step-by-step in very simple terms.
+
+PDA States:
+    q0: Start state — we read the first 0s and push them to the stack
+    q1: We’ve finished reading the first 0s, now just skip through w
+    q2: Start reading final 0s, popping from the stack
+    q_accept: If everything matches, we accept
+    q_reject (implicit): If the stack doesn't match, reject
+
+PDA Alphabet:
+  Input symbols (Σ): {0, 1}
+  Stack symbols (Γ): {Z, 0}
+Z is a special bottom marker
+
+Transitions:
+We'll write transitions like this:
+  (current_state, input_symbol, top_stack_symbol) → (next_state, push_or_pop)
+
+1. Start State q0: Read the first group of 0s (k ≥ 1)
+    
+    (q0, 0, Z) → (q0, 0Z)    ; push 0, Z stays at bottom
+    (q0, 0, 0) → (q0, 00)    ; push another 0
+Once we see a non-zero (i.e., part of w), move to state q1:
+    
+    (q0, 1, 0) → (q1, 0)     ; don’t touch stack, just move to q1
+    (q0, 1, Z) → (q1, Z)     ; handle case if k = 1 (rare, but allowed)
+    (q0, ε, 0) → (q1, 0)     ; if w is empty, move to q1
+
+
+2. State q1: Read the middle part w, ignore it
+
+    (q1, 0, 0) → (q1, 0)     ; read 0, don't touch stack
+    (q1, 1, 0) → (q1, 0)     ; read 1, don't touch stack
+    (q1, 0, Z) → (q1, Z)     ; same with bottom of stack
+    (q1, 1, Z) → (q1, Z)
+When we see the final group of 0s, we want to pop — move to q2
+
+    (q1, 0, 0) → (q2, ε)     ; pop 0
+
+3. State q2: Final group of 0s — pop matching 0s
+    (q2, 0, 0) → (q2, ε)     ; pop 0 for every 0 seen
+
+When the stack is empty (just Z remains), we’re done:
+
+    (q2, ε, Z) → (q_accept, Z)   ; accept when input is done and stack is at base
+
+✅ Final Condition
+The PDA accepts by final state (q_accept) when:
+    The number of ending 0s matched the starting 0s
+    The stack is back to bottom symbol Z
+
+
+
+(b) Showing No Finite Automaton Accepts Language B
+
+Language Definition:
+B = {0ᵏ1w0ᵏ | k ≥ 1 and w ∈ Σ*}
+This means the language consists of strings that:
+  Start with at least one '0' (k ≥ 1).
+  Then a '1'.
+  Then any string w ∈ {0,1}*.
+  Then exactly k '0's.
+
+Approach:
+To show that no finite automaton accepts B, we can use the Pumping Lemma for regular languages.
+
+Pumping Lemma Proof:
+  Assume B is regular. Then there exists a pumping length p ≥ 1.
+  Choose the string s = 0ᵖ1w0ᵖ ∈ B (let w = ε for simplicity, so s = 0ᵖ10ᵖ).
+  By the Pumping Lemma, s can be split into xyz such that:
+    
+    |xy| ≤ p,
+    |y| ≥ 1,
+    xyⁱz ∈ B for all i ≥ 0.
+
+Since |xy| ≤ p and s starts with p '0's, y consists of at least one '0' (from the initial sequence).
+
+Pump up (i=2): xy²z has more '0's in the initial part but the same number at the end, breaking the balance (k no longer matches).
+
+Original: 0...01...10...0 (p '0's at start and end).
+Pumped: 0...00...01...10...0 (more than p '0's at start, still p at end).
+
+This string is not in B because the counts of leading and trailing '0's no longer match.
+Contradiction, so B is not regular.
+
+Final Answer for (b):
+No finite automaton can accept the language B = {0ᵏ1w0ᵏ | k ≥ 1 and w ∈ Σ*} 
+because it requires counting the initial sequence of '0's and ensuring the same count at the end, which is impossible for an FA due to its finite memory. 
+This can be formally proven using the Pumping Lemma for regular languages as shown above.
+
+
+
+C8.
+Part (a): Minimum Possible Final Value of X
+Given:
+  20 processes: P1, P2, ..., P20
+  Shared variable: X initialized to 0
+  Each process executes:
+
+    printf("%d %d", i, X);
+    X = X + i;
+
+Observation:
+There is a race condition because multiple processes can access and modify X concurrently.
+To compute the minimum possible final value of X, we need to maximize the number of overwrites or lost updates due to races. 
+The worst-case scenario is that only one process (say, the last one) actually updates X, and the rest read X = 0, add their i, 
+but their result gets overwritten by others before being stored.
+
+So:
+Minimum final value of X = maximum single process value = 20
+Minimum possible final value of X is 20.
+This occurs when all other updates are lost due to race conditions, and only the last process successfully updates X.
+
+
+
+
+Part (b): Synchronizing using Semaphores
+You want the processes to print in this exact order:
+
+    1 1
+    2 3
+    3 6
+    ...
+    20 210
+
+Each process should:
+  Wait for its turn (process i should run after process i-1)
+  Access and update X in a synchronized way
+
+i. Declaration and Initialization of Semaphores
+      shared semaphore mutex[20] = {1, 0, 0, ..., 0};  // mutex[0] = 1, rest are 0
+Only P1 can start (mutex[0] = 1); others must wait.
+
+ii. Modified do_something(i) with Semaphores
+Here’s the updated function using wait() and signal():
+
+    shared int X = 0;
+    shared semaphore mutex[20] = {1, 0, 0, ..., 0};  // only first is 1
+    
+    void do_something(int i)
+    {
+        wait(mutex[i - 1]);          // padding for index position
+        # current process must wait for previous process to signal()
+        
+        printf("%d %d\n", i, X);     // print current i and X
+        X = X + i;                   // update shared X
+    
+        if (i < 20)
+            signal(mutex[i]);
+          # if semaphore within reach, must signal() for next process to be pushed to ready queue
+    }
+
+Notes:
+i must be from 1 to 20.
+mutex[i - 1] ensures Pi waits for Pi-1.
+Only Pi signals Pi+1.
+
+
+
+C9.
+## ✅ **Target Behavior**
+
+You want to design a **synchronous counter** with an **Enable input**.
+When `Enable = 1`, it generates this **repeating binary sequence**:
+   
+    * **Decimal**: 0 → 3 → 1 → 2 → 0 → ...
+    * **Binary** (3-bit assumed): `00`, `11`, `01`, `10`
+
+That’s 4 distinct states, so we only need **2 flip-flops** (since 2 bits → 4 states).
+### 🎯 State Table
+
+| Present State (Q1 Q0) | Next State (Q1+ Q0+) |
+| --------------------- | -------------------- |
+| 00 (0)                | 11 (3)               |
+| 11 (3)                | 01 (1)               |
+| 01 (1)                | 10 (2)               |
+| 10 (2)                | 00 (0)               |
+
+Let’s denote:
+
+* `Q1`, `Q0`: current state bits
+* `Q1+`, `Q0+`: next state bits
+
+---
+
+## ✅ Step 1: JK Flip-Flop Excitation Table
+
+We need to determine **what inputs (J and K)** to give the JK flip-flops to make the desired transitions.
+
+### JK Flip-Flop Excitation Table:
+
+| Q | Q+ | J | K |
+| - | -- | - | - |
+| 0 | 0  | 0 | X |
+| 0 | 1  | 1 | X |
+| 1 | 0  | X | 1 |
+| 1 | 1  | X | 0 |
+
+We'll use this to fill out the inputs to the JK flip-flops for Q1 and Q0.
+
+---
+
+## ✅ Step 2: Determine Flip-Flop Inputs
+
+Let’s analyze each transition:
+### For Q1:
+
+| Q1 Q0 | Q1+ | J1 | K1 |
+| ----- | --- | -- | -- |
+| 0 0   | 1   | 1  | X  |
+| 1 1   | 0   | X  | 1  |
+| 0 1   | 1   | 1  | X  |
+| 1 0   | 0   | X  | 1  |
+
+So:
+
+* J1 = Q0' (when Q0 = 0 → J1 = 1; when Q0 = 1 → J1 = 1)
+* K1 = Q0
+
+### For Q0:
+
+| Q1 Q0 | Q0+ | J0 | K0 |
+| ----- | --- | -- | -- |
+| 0 0   | 1   | 1  | X  |
+| 1 1   | 1   | X  | 0  |
+| 0 1   | 0   | X  | 1  |
+| 1 0   | 0   | X  | 1  |
+
+So:
+
+* `J0 = Q1`
+* `K0 = Q1`
+
+---
+
+## ✅ Step 3: Include Enable Signal
+
+When `Enable = 0`, the state must **not change**.
+We achieve this by modifying the JK inputs:
+    * For flip-flop to **hold its state**, set `J = 0` and `K = 0`
+    * So we need to **AND** each J and K input with `Enable`
+
+Final logic:
+
+    ```
+    J1 = Enable • Q0'
+    K1 = Enable • Q0
+    J0 = Enable • Q1
+    K0 = Enable • Q1
+    ```
+
+---
+
+## ✅ Step 4: Circuit Using Minimal Gates
+
+We now need to implement the above logic using minimal **AND, OR, NOT** gates.
+
+### Required logic gates:
+
+    * **NOT gate** for `Q0'`
+    * **AND gates** for all J and K inputs (each 2-input)
+
+Total:
+    
+    * 1 NOT
+    * 4 ANDs (Enable × signal for each JK input)
+
+This is **minimal** because:
+
+    * You need at least 4 control signals for the 2 JK flip-flops
+    * AND gates are the simplest way to combine `Enable` with each input
+
+---
+
+## ✅ Step 5: Replace With Universal Gates (NAND or NOR)
+
+Now we’ll convert the circuit to **use only NAND gates**, a **universal gate**.
+
+### Conversion:
+
+    * `A • B` using NAND = `(A NAND B)'`
+    * `NOT A` = `A NAND A`
+
+So:
+
+* `J1 = (Enable NAND Q0')'`
+
+  * First, `Q0' = Q0 NAND Q0`
+  * Then `Enable NAND Q0'` → then NAND the result with itself to get AND
+
+Apply this for each J/K input.
+
+You'll need:
+
+    * 1 NAND for NOT gate
+    * 4 NANDs to combine inputs
+    * 4 more NANDs to invert the result back (AND behavior)
+
+So **total NAND gates**: \~9 (still compact)
+
+---
+
+## ✅ Summary of Final Circuit
+
+* 2 JK flip-flops (Q1 and Q0)
+* Logic inputs:
+
+  * `J1 = Enable AND NOT(Q0)`
+  * `K1 = Enable AND Q0`
+  * `J0 = Enable AND Q1`
+  * `K0 = Enable AND Q1`
+* Implemented with NAND gates only
+
+This circuit:
+
+* Cycles through 0 → 3 → 1 → 2 → 0 ... when Enable = 1
+* Holds state when Enable = 0
+
+
+
+C10.
+
+## 🔢 Message: `101000` (6 bits)
+
+We’ll use **Hamming(7,4), (8,4), (12,8), etc.** logic to determine how many **parity bits** we need.
+
+We use the condition:
+
+  > **Find smallest r such that:**
+    > 2^r ≥ m + r + 1
+    > where `m = 6` (message bits), `r` = number of parity bits
+
+Try:
+
+* r = 3 → 2³ = 8 → 8 ≥ 6+3+1 = 10 ❌
+* r = 4 → 2⁴ = 16 → 16 ≥ 6+4+1 = 11 ✅
+
+✅ So we need **4 parity bits**
+→ Total codeword length = **6 data + 4 parity = 10 bits**
+
+---
+
+## 📍 Step (a): **Construct the Codeword with Even Parity**
+
+We’ll place parity bits at **positions that are powers of 2**:
+
+| Position | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 |
+| -------- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| Bit type | P1 | P2 | D1 | P4 | D2 | D3 | D4 | P8 | D5 | D6 |
+
+* D1 to D6 = `1 0 1 0 0 0` (from message)
+* P1, P2, P4, P8 to be calculated
+
+### ⏺ Insert data bits
+
+| Pos | Value  |
+| --- | ------ |
+| 3   | D1 = 1 |
+| 5   | D2 = 0 |
+| 6   | D3 = 1 |
+| 7   | D4 = 0 |
+| 9   | D5 = 0 |
+| 10  | D6 = 0 |
+
+---
+
+### 🔁 Compute Parity Bits (Even Parity)
+
+**P1 (position 1):** checks bits 1,3,5,7,9
+→ positions: 1(P1), 3(D1=1), 5(D2=0), 7(D4=0), 9(D5=0)
+→ values: \[P1, 1, 0, 0, 0] → 1 one
+→ to make total even, P1 = 1
+
+**P2 (position 2):** checks 2,3,6,7,10
+→ values: \[P2, 1, 1, 0, 0] → 2 ones
+→ P2 = 0
+
+**P4 (position 4):** checks 4,5,6,7
+→ values: \[P4, 0, 1, 0] → 1 one
+→ P4 = 1
+
+**P8 (position 8):** checks 8,9,10
+→ values: \[P8, 0, 0] → 0 ones
+→ P8 = 0
+
+---
+
+### ✅ Final Codeword
+
+| Position | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+| -------- | - | - | - | - | - | - | - | - | - | -- |
+| Bit      | 1 | 0 | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0  |
+
+✅ Codeword: **1011010000**
+
+---
+
+## 📍 Step (b): Invert the **last bit** (position 10)
+
+Original: `1011010000`
+Error:    `1011010001` ← bit 10 flipped
+
+
+### 🧩 Error Detection: Syndrome
+We recalculate the parity checks and compute the **syndrome** (error position):
+
+* P1 checks: 1,3,5,7,9 → \[1,1,0,0,0] → 2 ones → even ✅
+* P2 checks: 2,3,6,7,10 → \[0,1,1,0,1] → 3 ones → odd ❌ → set bit 2 of syndrome
+* P4 checks: 4,5,6,7 → \[1,0,1,0] → 2 ones → even ✅
+* P8 checks: 8,9,10 → \[0,0,1] → 1 one → odd ❌ → set bit 8 of syndrome
+
+### Syndrome = binary `1010` = **10**
+
+→ Error is at **position 10**
+✅ Flip bit 10 → correct codeword: `1011010000`
+
+---
+
+## 📍 Step (c): Invert the **first bit** (position 1)
+
+Original: `1011010000`
+Error:    `0011010000` ← bit 1 flipped
+
+### 🧩 Error Detection:
+* P1 checks: 1,3,5,7,9 → \[0,1,0,0,0] → 1 one → odd ❌ → bit 1 of syndrome = 1
+* P2 checks: 2,3,6,7,10 → \[0,1,1,0,0] → 2 ones → even ✅
+* P4 checks: 4,5,6,7 → \[1,0,1,0] → 2 ones → even ✅
+* P8 checks: 8,9,10 → \[0,0,0] → 0 ones → even ✅
+
+Syndrome = binary `0001` = **1**
+→ Error is at **position 1**
+✅ Flip bit 1 → correct codeword: `1011010000`
+
+---
+
+## ✅ Summary
+
+| Task                        | Result                               |
+| --------------------------- | ------------------------------------ |
+| (a) Hamming codeword        | `1011010000`                         |
+| (b) Bit 10 inverted → fixed | Detected at pos 10, corrected to `0` |
+| (c) Bit 1 inverted → fixed  | Detected at pos 1, corrected to `1`  |
+
+
+
+
+
+C11.
+Let's first understand the goal and structure of the SQL query.
+
+We need to find **how many products** have been **commonly bought** by **each pair of customers** (i.e., both customers bought the same product).
+
+The table `BOUGHT(CUST, PROD, QT)` has entries like:
+  * (C1, P1, 2): Customer C1 bought 2 units of product P1.
+
+We are asked to:
+  * Compare **pairs of customers (C1, C2)**.
+  * Count how many **products both C1 and C2 bought**.
+  * Only include customer pairs who have **at least one product in common**.
+
+
+### 🧾 Strategy:
+
+We'll **self-join** the BOUGHT table (e.g., B1 and B2) to compare different customers.
+
+Join condition:
+
+    * `B1.PROD = B2.PROD` — they both bought the same product
+    * `B1.CUST < B2.CUST` — to avoid duplicates and self-pairs
+
+Then group by customer pairs and count common products.
+
+---
+
+### ✅ Fill in the blanks
+
+| **Blank** | **Correct Answer**                        | **Explanation**                                             |
+| --------- | ----------------------------------------- | ----------------------------------------------------------- |
+| **I**     | `count(*)`                                | We count how many products both customers bought in common. |
+| **II**    | `B1.CUST`                                 | First customer in the pair                                  |
+| **III**   | `B2.CUST`                                 | Second customer in the pair                                 |
+| **IV**    | `BOUGHT`                                  | First instance of table (alias B1)                          |
+| **V**     | `BOUGHT`                                  | Second instance of table (alias B2)                         |
+| **VI**    | `B1.PROD = B2.PROD and B1.CUST < B2.CUST` | Join condition: same product, avoid duplicate/self pairs    |
+| **VII**   | `CUST1, CUST2`                            | Group by the customer pair                                  |
+
+---
+
+### ✅ Final Answers (only blanks as requested):
+
+* **I** → `count(*)`
+* **II** → `B1.CUST`
+* **III** → `B2.CUST`
+* **IV** → `BOUGHT`
+* **V** → `BOUGHT`
+* **VI** → `B1.PROD = B2.PROD and B1.CUST < B2.CUST`
+* **VII** → `CUST1, CUST2`
+
+Let me know if you'd like the full query assembled or an output example!
+

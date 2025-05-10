@@ -1,0 +1,1159 @@
+PART A
+
+1.
+I'll solve this step-by-step by analyzing what we know and the statements from each suspect.
+
+Given information:
+  - There are three types of people: honest (always truth), liars (always lies), and normal (sometimes truth, sometimes lies)
+  - Among A, B, and C, exactly one is honest
+  - The honest person committed the crime
+    - A says: "I did not commit the crime"
+    - B says: "Yes, A did not commit the crime"
+    - C says: "B is not normal"
+
+Let's analyze each suspect's possible type and what that would mean:
+
+**For A:**
+  If A is honest:
+    - A's statement "I did not commit the crime" must be true
+    - But we know the honest person committed the crime
+    - This is a contradiction, so A cannot be honest
+      
+  If A is a liar:
+    - A's statement "I did not commit the crime" must be false
+    - So A did commit the crime
+    - This is possible if A is a liar
+  
+  If A is normal:
+    - A could be telling truth or lying
+    - This remains a possibility
+
+**For B:**
+  If B is honest:
+    - B's statement "Yes, A did not commit the crime" must be true
+    - So A truly did not commit the crime
+    - But we need the honest person to have committed the crime
+    - This means B must have committed the crime if B is honest
+    - This is possible
+  
+  If B is a liar:
+    - B's statement "Yes, A did not commit the crime" must be false
+    - So A did commit the crime
+    - This is possible if B is a liar
+  
+  If B is normal:
+    - B could be telling truth or lying
+    - This remains a possibility
+
+**For C:**
+  If C is honest:
+    - C's statement "B is not normal" must be true
+    - So B must be either honest or a liar (not normal)
+    - This is possible if C is honest
+  
+  If C is a liar:
+    - C's statement "B is not normal" must be false
+    - So B must be normal
+    - This is possible if C is a liar
+  
+  If C is normal:
+    - C could be telling truth or lying
+    - This remains a possibility
+
+Now, given that exactly one person is honest and that person committed the crime, let's analyze the possibilities:
+
+If A is honest: We've shown this leads to a contradiction, so A cannot be honest.
+
+If B is honest:
+  - B's statement is true, so A did not commit the crime
+  - B must have committed the crime (since the honest person committed it)
+  - C's statement about B would have to be true (that B is not normal)
+  - But this contradicts our assumption that B is honest
+  - So B cannot be honest
+
+If C is honest:
+  - C's statement is true, so B is not normal (B is either honest or a liar)
+  - C must have committed the crime (since the honest person committed it)
+  - This doesn't create any contradictions
+  - So C being honest is consistent with all statements
+
+Therefore, C is the honest person and C committed the crime.
+
+
+
+2.
+I'll solve this step by step by understanding the properties of engulfing sets.
+
+A set S ⊆ C is engulfing if either:
+  - |S| = 1, or
+  - Both |S²| = |S|/2 and S² is also engulfing, where S² = {x² | x ∈ S}
+
+Let's analyze what this means for different cardinalities:
+
+### Case |S| = 1 : Any singleton set is engulfing by definition.
+
+### Case |S| = 2
+  If |S| = 2, then |S²| = |S|/2 = 1, so S² must be a singleton.
+  For S² to be a singleton, both elements of S must square to the same value.
+
+### Case |S| = 4
+For an engulfing set of cardinality 4:
+  - We need |S²| = |S|/2 = 2
+  - S² must be engulfing with cardinality 2
+
+### Case |S| = 6
+For an engulfing set of cardinality 6:
+  - We need |S²| = |S|/2 = 3
+  - S² must be engulfing with cardinality 3
+
+Let's solve each part:
+
+## (a) Find an engulfing set of cardinality 4
+
+Starting with S², we need an engulfing set of cardinality 2.
+For a set with 2 elements to be engulfing, both elements must square to the same value.
+
+Let's try S² = {1, -1}. When squared, both elements give 1: 1² = 1 and (-1)² = 1.
+So S² = {1, -1} would map to {1}, which is a singleton and thus engulfing.
+
+Now we need to find S with |S| = 4 such that S² = {1, -1}.
+The elements in S must square to either 1 or -1.
+
+The solutions to x² = 1 are x = 1 or x = -1.
+The solutions to x² = -1 are x = i or x = -i.
+
+Therefore, S = {1, -1, i, -i} works:
+    - 1² = 1
+    - (-1)² = 1
+    - i² = -1
+    - (-i)² = -1
+
+So S² = {1, -1}, which is engulfing.
+
+
+
+## (b) Find an engulfing set of cardinality 6
+
+We need |S²| = |S|/2 = 3, and S² must be engulfing.
+
+For a set with 3 elements to be engulfing, it needs to square to a set with 3/2 = 1.5 elements, which isn't possible.
+So S² with 3 elements must fall under the special case where |S²| = 1.
+
+This means all 3 elements of S² must square to the same value. Let's use S² = {1, ω, ω²}, where ω is a primitive cube root of unity: ω = e^(2πi/3).
+
+Note that:
+    - 1² = 1
+    - ω² = ω²
+    - (ω²)² = ω⁴ = ω · ω³ = ω · 1 = ω
+
+So (S²)² = {1}, which is engulfing.
+
+Now we need S with |S| = 6 such that S² = {1, ω, ω²}.
+  
+  For x² = 1: x = 1 or x = -1
+  For x² = ω: x = √ω or x = -√ω, where √ω = e^(πi/3)
+  For x² = ω²: x = √ω² or x = -√ω², where √ω² = e^(2πi/3)
+
+Therefore, S = {1, -1, e^(πi/3), -e^(πi/3), e^(2πi/3), -e^(2πi/3)} works.
+
+To verify:
+  - 1² = 1
+  - (-1)² = 1
+  - (e^(πi/3))² = e^(2πi/3) = ω²
+  - (-e^(πi/3))² = e^(2πi/3) = ω²
+  - (e^(2πi/3))² = e^(4πi/3) = ω
+  - (-e^(2πi/3))² = e^(4πi/3) = ω
+
+So S² = {1, ω, ω²}, which is engulfing.
+
+Therefore:
+(a) An engulfing set of cardinality 4 is {1, -1, i, -i}
+(b) An engulfing set of cardinality 6 is {1, -1, e^(πi/3), -e^(πi/3), e^(2πi/3), -e^(2πi/3)}
+
+
+3.
+To demonstrate that the **greedy algorithm**—which selects a vertex of **maximum degree** at each step—can fail to return a **minimum vertex cover**, we can construct a **counterexample** graph.
+
+### 🔧 Key idea:
+
+We'll create a graph where **choosing the highest-degree vertex leads to a larger-than-necessary cover**, whereas a smaller set would suffice.
+
+---
+
+### ✅ Counterexample Graph:
+
+Consider the following graph $G$:
+
+  * **Vertices:** $V = \{a, b, c, d, e\}$
+  * **Edges:**
+    $\{(a, b), (a, c), (b, d), (c, e)\}$
+
+This graph looks like:
+
+      ```
+           a
+          / \
+         b   c
+         |   |
+         d   e
+      ```
+
+### 🔍 Degree of each vertex:
+
+  * $\deg(a) = 2$
+  * $\deg(b) = 2$
+  * $\deg(c) = 2$
+  * $\deg(d) = 1$
+  * $\deg(e) = 1$
+
+---
+
+### 💡 What the Greedy Algorithm Does:
+    
+    1. **Pick vertex with highest degree**: Say it picks $a$ (ties broken arbitrarily).
+    2. Remove $a$, edges $(a, b)$ and $(a, c)$ are covered.
+    3. Remaining edges: $(b, d), (c, e)$
+    4. Now pick one of $b$ or $c$ (degree 1 now), say $b$.
+    5. Remove $b$, covering $(b, d)$
+    6. Remaining edge: $(c, e)$, pick $c$
+    7. Vertex cover: $\{a, b, c\}$
+
+**Greedy output: 3 vertices**
+
+---
+
+### 🟢 But the **minimum** vertex cover is:
+    
+    * Pick $b$ and $c$
+    * All edges are covered:
+      $(a, b)$, $(a, c)$, $(b, d)$, $(c, e)$
+
+**Optimal output: 2 vertices**
+
+---
+
+### ✅ Conclusion:
+The greedy algorithm that selects the maximum-degree vertex **can produce a non-minimal vertex cover**. In this graph, it selects 3 vertices when only 2 are needed.
+
+
+
+PART B
+
+1.
+🧩 Part (a): Construct AVL Trees TA and TB That Cannot Be Merged
+We need to build two AVL trees TA and TB, with:
+    
+    TA having 6 values
+    TB having 7 values
+    No overlapping values
+
+The structure of TA must not have any free left or right pointer to attach TB's root while maintaining BST property.
+
+✅ Let’s build:
+🔷 Tree TA (6 values):
+
+            30
+           /  \
+         20    40
+        /  \
+      10   25
+            \
+             28
+In-order: 10, 20, 25, 28, 30, 40
+
+🔷 Tree TB (7 values, all > 40):
+
+            60
+           /  \
+         50    70
+        /  \
+      45   55
+     /        \
+    44         56
+In-order: 44, 45, 50, 55, 56, 60, 70
+
+
+❌ Can TB be merged into TA?
+We must attach TB’s root (60) to a free left or right pointer in TA.
+
+To preserve BST, all nodes in TB must be either:
+    Less than some node in TA (to be its left child), or
+    Greater than some node in TA (to be its right child)
+
+In this case:
+
+  All values in TB are greater than all nodes in TA
+  The only valid location for TB's root is right of node 40
+  But node 40 already has no free link, or it is a leaf (depending on structure)
+
+Let’s assume node 40 is a leaf (as in our TA above), so it's free to attach.
+
+However, suppose we tweak TA slightly:
+
+Updated TA (no free right link):
+
+            30
+           /  \
+         20    40
+        /  \     \
+      10   25    45
+            \
+             28
+Now, 40's right link is occupied by 45, and no other node in TA can accommodate 60 while preserving the BST property.
+
+Thus, TB cannot be merged into TA.
+
+💡 Part (b): Merging Algorithm (Single-Link BST Merge)
+
+🚀 Algorithm: Merge-AVL-BST(T1, T2)
+    Input: Two AVL trees T1 and T2, with disjoint values
+    Output: Merged BST (not necessarily AVL), or error if not possible
+
+🔣 Steps:
+Get min and max values of T2:
+    
+    minT2 = getMin(T2)
+    
+    maxT2 = getMax(T2)
+
+Traverse T1 to find valid attach point:
+
+Traverse T1 in preorder (or BFS)
+
+For each node v in T1:
+  
+  If maxT2 < v.value and v.left is NULL:
+  
+    Attach T2 at v.left, return merged tree
+  
+  Else if minT2 > v.value and v.right is NULL:
+  
+    Attach T2 at v.right, return merged tree
+  
+  If no valid attach point exists:
+
+Return "Merge Not Possible"
+
+
+🕓 Time Complexity:
+    getMin and getMax: O(log N) on AVL trees
+    
+    Traversal of T1: O(M), where M = number of nodes in T1
+    
+    Total time: O(M + log N)
+
+📐 Maximum Height of Merged Tree:
+Let:
+    
+    h1 = height(T1)
+    
+    h2 = height(T2)
+
+  Since the merged tree is not rebalanced, the maximum height is:
+  
+  H = h1 + h2 + 1
+
+✅ Summary
+Aspect	Value
+Time Complexity	O(M + log N)
+Merge Result	BST (not AVL)
+Max Height of Merge	h1 + h2 + 1
+Merge Failure Condition	No valid attach node found
+
+class AVLNode:
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+def getMin(node):
+    """Returns the node with the minimum value in the BST."""
+    while node.left is not None:
+        node = node.left
+    return node
+
+def getMax(node):
+    """Returns the node with the maximum value in the BST."""
+    while node.right is not None:
+        node = node.right
+    return node
+
+def merge_AVL_BST(T1, T2):
+    """Merges two AVL trees T1 and T2 if possible and returns the merged tree or error."""
+    
+    # Get the minimum and maximum values in T2
+    minT2 = getMin(T2)
+    maxT2 = getMax(T2)
+    
+    # Helper function to find a valid place to attach T2
+    def try_to_merge(root, minT2, maxT2):
+        """Find a valid place in T1 for the root of T2 to attach"""
+        if root is None:
+            return None
+        
+        if root.value > maxT2.value and root.left is None:  # Try to attach to the left
+            root.left = T2
+            return root
+        elif root.value < minT2.value and root.right is None:  # Try to attach to the right
+            root.right = T2
+            return root
+        
+        # Recur into left or right subtree based on the value of the root
+        left_merge = try_to_merge(root.left, minT2, maxT2)
+        if left_merge:
+            return left_merge
+        return try_to_merge(root.right, minT2, maxT2)
+    
+    # Attempt to merge T2 into T1
+    merged_tree = try_to_merge(T1, minT2, maxT2)
+    
+    if merged_tree:
+        return T1
+    else:
+        raise ValueError("Merge Not Possible: No valid attachment point found.")
+
+# Helper function to create an AVL tree
+def insert(root, value):
+    """Insert a value into an AVL tree, keeping it balanced."""
+    if root is None:
+        return AVLNode(value)
+    
+    if value < root.value:
+        root.left = insert(root.left, value)
+    else:
+        root.right = insert(root.right, value)
+    
+    return root
+
+# Helper function to print an in-order traversal of the tree
+def in_order(root):
+    if root is None:
+        return []
+    return in_order(root.left) + [root.value] + in_order(root.right)
+
+# Example usage:
+# Create two AVL trees with disjoint values
+# Tree T1
+T1 = AVLNode(30)
+T1 = insert(T1, 20)
+T1 = insert(T1, 40)
+T1 = insert(T1, 10)
+T1 = insert(T1, 25)
+T1 = insert(T1, 28)
+
+# Tree T2
+T2 = AVLNode(60)
+T2 = insert(T2, 50)
+T2 = insert(T2, 70)
+T2 = insert(T2, 45)
+T2 = insert(T2, 55)
+T2 = insert(T2, 44)
+T2 = insert(T2, 56)
+
+print("T1 In-Order:", in_order(T1))
+print("T2 In-Order:", in_order(T2))
+
+# Attempt to merge T2 into T1
+try:
+    merged_tree = merge_AVL_BST(T1, T2)
+    print("Merged Tree In-Order:", in_order(merged_tree))
+except ValueError as e:
+    print(e)
+
+
+2.
+The problem you're describing is an array $X$ of distinct elements where the array is "bitonic" in nature. 
+This means the array first increases up to a peak element, and then decreases after the peak. Our goal is to sort this array in linear time.
+
+### **Key Insight:**
+
+  * The array is already partially sorted in a way that the elements first increase and then decrease.
+  * The problem can be reduced to finding the "peak" (the element at the maximum point) and then sorting the two subsequences — the increasing part and the decreasing part — separately.
+
+### **Steps for Sorting the Bitonic Array:**
+
+1. **Find the Peak**: Since the array increases up to a peak and then decreases, we can use a **modified binary search** to find the peak. The peak is the element where:
+    
+       * $X[i] > X[i-1]$ and $X[i] > X[i+1]$.
+       
+2. **Sort the Two Parts**:
+
+   * **Left part (Increasing sequence)**: The elements from the start of the array up to the peak form an increasing sequence.
+   * **Right part (Decreasing sequence)**: The elements from the peak to the end of the array form a decreasing sequence.
+
+   Since both parts are already sorted (one in increasing order and one in decreasing order), we can sort the two subsequences separately and then combine them.
+
+### **Steps in Detail**:
+
+#### 1. **Find the Peak using Binary Search** (O(log n)):
+
+* Perform a binary search on the array to find the peak element. The idea is to compare the middle element with its neighbors and decide whether to search on the left or right half.
+
+#### 2. **Sort the Two Parts**:
+    
+    * **Increasing part**: The part of the array before the peak is already sorted in increasing order.
+    * **Decreasing part**: The part of the array after the peak is sorted in decreasing order, so we can simply reverse this part to make it sorted in increasing order.
+
+#### 3. **Combine the Two Parts**:
+
+    * The two parts (increasing and reversed decreasing) can now be combined into a sorted array.
+
+### **Algorithm**:
+
+```python
+def find_peak(X):
+    """Find the peak element using binary search in O(log n)."""
+    low, high = 0, len(X) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        
+        # Check if mid is the peak
+        if (mid == 0 or X[mid - 1] <= X[mid]) and (mid == len(X) - 1 or X[mid + 1] <= X[mid]):
+            return mid
+        elif mid > 0 and X[mid - 1] > X[mid]:
+            high = mid - 1  # Search in the left half
+        else:
+            low = mid + 1  # Search in the right half
+    return -1  # This should never happen if the array is bitonic
+
+def sort_bitonic(X):
+    """Sort the bitonic array in O(n) time."""
+    # Step 1: Find the peak element using binary search
+    peak = find_peak(X)
+    
+    # Step 2: Sort the left part (increasing) and right part (decreasing)
+    # The left part is already sorted, the right part is in decreasing order
+    left_part = X[:peak + 1]
+    right_part = X[peak + 1:][::-1]  # Reverse the right part to make it sorted
+    
+    # Step 3: Combine the two parts
+    return left_part + right_part
+
+# Example usage:
+  X = [1, 3, 5, 7, 6, 4, 2]
+  sorted_X = sort_bitonic(X)
+  print(sorted_X)
+  ```
+
+### **Explanation**:
+
+1. **`find_peak(X)`**: This function uses a binary search approach to find the peak element of the bitonic array in $O(\log n)$ time.
+2. **`sort_bitonic(X)`**:
+
+   * The peak is found using `find_peak`.
+   * The left part is the increasing sequence up to the peak, and the right part is the decreasing sequence after the peak, which we reverse to make it increasing.
+   * The two parts are then combined to form the final sorted array.
+
+### **Time Complexity**:
+
+    * **Binary Search for Peak**: $O(\log n)$
+    * **Reversing the decreasing part**: $O(n)$
+    * **Combining the two parts**: $O(n)$
+
+Thus, the total time complexity is $O(n)$, since reversing and combining are both linear in time.
+
+### **Space Complexity**:
+
+* **Space Complexity** is $O(n)$ due to the space required for storing the left and right parts, but if the array is modified in place, we could reduce this to $O(1)$.
+
+### **Example**:
+
+For the input array $X = [1, 3, 5, 7, 6, 4, 2]$, the algorithm would:
+
+* Find the peak element $7$.
+* The increasing part is $[1, 3, 5, 7]$.
+* The decreasing part $[6, 4, 2]$ is reversed to become $[2, 4, 6]$.
+* Combine them to get the sorted array $[1, 2, 3, 4, 5, 6, 7]$.
+
+This algorithm effectively sorts a bitonic array in linear time $O(n)$.
+
+
+
+
+4.
+To prove the statement that for each colour in an optimal vertex colouring of a graph $G$, there exists a vertex of that colour which has vertices of every other colour adjacent to it, we need to break down the problem and use the properties of proper and optimal vertex colouring.
+
+### Key Concepts:
+    
+    1. **Proper vertex colouring**: In a proper vertex colouring, no two adjacent vertices share the same colour.
+    2. **Optimal vertex colouring**: An optimal colouring is a proper vertex colouring that uses the **minimum number of colours**.
+    3. We are given that $G$ has an optimal vertex colouring, meaning the colouring uses the minimum possible number of colours.
+
+### Goal:
+
+  We need to show that for each colour used in the optimal colouring of $G$, there exists a vertex of that colour which is adjacent to vertices of every other colour.
+
+### Proof:
+
+Let $G$ be a graph with an optimal vertex colouring, and let the graph $G$ be coloured with $k$ colours $C_1, C_2, \dots, C_k$. 
+For the sake of clarity, let's denote the set of vertices of colour $C_i$ by $V_{C_i}$, where $1 \leq i \leq k$. 
+We want to show that for each $C_i$ (for each colour), 
+there exists a vertex $v \in V_{C_i}$ such that $v$ is adjacent to at least one vertex of each of the other colours $C_1, C_2, \dots, C_{i-1}, C_{i+1}, \dots, C_k$.
+
+### Step 1: Contradiction Approach
+
+Assume, for the sake of contradiction, that there is some colour $C_i$ for which this property does not hold. 
+This would mean that for colour $C_i$, there is no vertex in $V_{C_i}$ that has neighbours of every other colour adjacent to it. 
+Specifically, for some colour $C_j \neq C_i$, the vertices of colour $C_i$ do not have any neighbours of colour $C_j$.
+
+### Step 2: Recolouring and Reducing the Number of Colours
+
+If there exists a colour $C_j$ such that no vertex in $V_{C_i}$ is adjacent to any vertex in $V_{C_j}$, 
+then all vertices of colour $C_i$ are disconnected from the vertices of colour $C_j$. 
+This suggests that the subgraph induced by the vertices of colours $C_i$ and $C_j$ is disconnected.
+
+Now, let’s consider the subgraph $G'$ formed by the vertices in $V_{C_i} \cup V_{C_j}$. 
+Since the colouring is proper, we know that no vertex in $V_{C_i}$ can have a vertex from $V_{C_i}$ as its neighbour (and similarly for $V_{C_j}$).
+
+Now, if there is no connection between the vertices of colours $C_i$ and $C_j$, we could attempt to reassign the colours in such a way that $C_j$ is eliminated, 
+reducing the number of colours in the graph. This would contradict the assumption that the colouring was optimal, because we would have found a way to colour the graph using fewer colours than $k$.
+
+### Step 3: Conclusion
+
+Since assuming that for some colour $C_i$, there is no vertex in $V_{C_i}$ that is adjacent to vertices of all other colours leads to a contradiction 
+(i.e., we can colour the graph with fewer colours), we conclude that for each colour $C_i$, there must exist a vertex in $V_{C_i}$ that is adjacent to vertices of every other colour.
+Thus, we have shown that for each colour in an optimal vertex colouring, there exists a vertex of that colour which has vertices of every other colour adjacent to it. This completes the proof. $\boxed{\text{Q.E.D.}}$
+
+
+
+5.
+We are tasked with proving that the language 
+𝐿:={1𝑛 ∣ there exist twin primes 𝑝 and 𝑞 with 𝑞=𝑝+2 and 𝑝≤𝑛}
+L:={1 n∣there exist twin primes p and q with q=p+2 and p≤n} is regular. 
+Twin primes are pairs of prime numbers 𝑝 and 𝑞 such that 𝑞=𝑝+2 : q=p+2.
+
+### Key Concepts:
+
+  1. **Twin primes**: A pair of prime numbers $p$ and $q$ is called a twin prime if $q = p + 2$.
+  2. **Regular languages**: A language is regular if it can be recognized by a finite automaton or equivalently described by a regular expression.
+
+The goal is to show that the language $L$, which consists of strings of the form $1^n$ where $n$ is the number such that there exist twin primes $p$ and $q$ with $p \leq n$ and $q = p + 2$, is regular.
+
+### Step 1: Understanding the Language
+
+The language $L$ consists of strings where the number of 1's is $n$, and there exist twin primes $p$ and $q$ with $p \leq n$ and $q = p + 2$. 
+This means that for any $n$, we need to check if there exist twin primes $p$ and $q$ such that $p \leq n$.
+
+Thus, $L$ includes all strings of the form $1^n$ where there exists at least one twin prime pair $p$ and $q$ such that $p \leq n$. 
+Note that the twin primes might be finite or infinite, but we are interested in recognizing the strings corresponding to these values of $n$.
+
+
+
+### Step 2: The Set of Twin Primes
+
+Let's recall that the twin primes are pairs of primes $p$ and $q$ such that $q = p + 2$. The first few twin primes are:
+
+      (3, 5), (5, 7), (11, 13), (17, 19), (29, 31), (41, 43), \dots
+
+
+So, $L$ is essentially the set of strings $1^n$ such that there exists a twin prime $p \leq n$ with $q = p + 2$.
+
+
+### Step 3: Regularity of the Language
+
+To show that $L$ is regular, we can use a crucial observation: **a regular language is closed under finite union**.
+
+The language $L$ consists of strings $1^n$ where $n$ corresponds to any $p$ such that $p$ is a twin prime. 
+Therefore, for each pair of twin primes $p$ and $p+2$, we can include the string $1^p$ in the language. 
+This means the language $L$ is essentially the union of finitely many sets of the form $\{1^n\}$ where $n$ is a twin prime $p$.
+
+Since the number of twin primes is finite for any $n$, and because the language consists of finite sets of strings of the form $1^n$, it follows that $L$ is the union of finitely many such sets.
+
+
+
+### Step 4: Constructing a Finite Automaton
+
+The language $L$ can be constructed using a finite automaton by recognizing a finite number of strings corresponding to $1^n$ where $n$ is a twin prime. 
+Specifically, the automaton can be designed to accept exactly those strings $1^n$ for which $n$ is a twin prime. Since there are finitely many twin primes less than any given $n$,
+the automaton can check for membership in the finite set of twin primes for a given $n$.
+
+Thus, $L$ is a finite union of strings of the form $1^n$, and a finite union of regular languages is regular.
+
+### Step 5: Conclusion
+
+Since $L$ is a finite union of singleton sets of strings $1^n$, and a finite union of regular languages is regular, we conclude that $L$ is a regular language.
+
+$$
+\boxed{L \text{ is regular.}}
+$$
+
+
+
+
+6.
+To show that the gate $T$ is **functionally complete**, we need to prove that it can implement **any 2-input Boolean function**.
+
+### Step 1: Definition of Functional Completeness
+
+A set of gates (or a single gate, in this case $T$) is said to be **functionally complete** if any Boolean function (involving any number of inputs) can be implemented using just that set of gates.
+In this problem, the goal is to prove that by setting the inputs of the gate $T$ to specific values (including $0$ and $1$), we can create **any 2-input Boolean function**.
+
+### Step 2: Truth Table of a 2-input Boolean Function
+
+Any 2-input Boolean function has a truth table with four possible input combinations (for inputs $A$ and $B$):
+
+| A | B | f(A, B) |
+| - | - | ------- |
+| 0 | 0 | ?       |
+| 0 | 1 | ?       |
+| 1 | 0 | ?       |
+| 1 | 1 | ?       |
+
+There are $2^4 = 16$ possible Boolean functions for two inputs, which means there are 16 distinct combinations for the output $f(A, B)$.
+These functions are:
+  
+  1. **AND**: $A \land B$
+  2. **OR**: $A \lor B$
+  3. **XOR**: $A \oplus B$
+  4. **NAND**: $\neg (A \land B)$
+  5. **NOR**: $\neg (A \lor B)$
+  6. **XNOR**: $\neg (A \oplus B)$
+  7. **NOT A**: $\neg A$ (achieved by setting $B = 0$)
+  8. **NOT B**: $\neg B$ (achieved by setting $A = 0$)
+  9. **TRUE**: $1$
+  10. **FALSE**: $0$
+  11. **Identity**: $A$
+  12. **Identity**: $B$
+
+### Step 3: Investigation of the Gate $T$
+
+Since you have not provided the exact truth table or circuit for the gate $T$ in your question, 
+let’s assume that the gate is designed in a way that it has an arbitrary number of inputs, 
+but the truth table for $f(A, B, C)$ includes the necessary operations (AND, OR, NOT) depending on how inputs $A$, $B$, and $C$ are set.
+
+### Step 4: Deriving Functional Completeness
+
+If the gate $T$ can be manipulated (by setting its inputs) to produce the **fundamental gates** such as **AND**, **OR**, and **NOT**, we can construct **any Boolean function** from these.
+  
+  * **NOT** can be implemented by setting one of the inputs to 0 (e.g., for $A$, setting $B = 0$).
+  * **AND** and **OR** gates can be implemented by setting the other inputs appropriately (i.e., combinations of 0 and 1 for $A$, $B$, and $C$).
+  * The **NAND**, **NOR**, and **XOR** gates can be built from combinations of **NOT**, **AND**, and **OR** gates.
+
+Since any 2-input Boolean function can be reduced to combinations of these basic operations (AND, OR, NOT),
+and we can create each of these basic operations using the gate $T$, this proves that **$T$ is functionally complete**.
+
+### Step 5: Conclusion
+
+If the gate $T$ can be configured by setting the inputs to 0 or 1 in such a way that it produces the fundamental gates (NOT, AND, OR), 
+and since any Boolean function can be written in terms of these operations, the gate $T$ is functionally complete.
+
+Thus, **any 2-input Boolean function can be implemented with gate $T$** by setting its inputs appropriately, proving that the gate is functionally complete.
+
+
+
+
+7.
+Let's work through this cache design problem step by step.
+
+### Key Definitions:
+
+  * **L1 Cache Hit Rate**: 0.95 (95%)
+  * **New L1 Cache Hit Rate**: 0.90 (90%)
+  * **Main Memory Access Time**: $T_{MM}$ (main memory access time)
+  * **L1 Cache Access Time**: $T_{L1}$
+  * **L2 Cache Access Time**: $T_{L2}$
+  * **Effective Memory Access Time (EMAT)**: the average time to access memory considering both hits and misses.
+
+The goal is to redesign the cache hierarchy such that the **Effective Memory Access Time (EMAT)** remains the same despite a smaller and slower L1 cache.
+
+---
+
+### **(a) Show that the access time of the L2 cache should be no greater than 1/2 of the main memory access time.**
+
+First, let's define the **EMAT** for the original system (with the 95% hit rate in L1)
+  
+  EMAT_{\text{original}} = T_{L1} + \left( 1 - \text{Hit Rate of L1} \right) \times T_{MM}
+
+For the original system:
+    
+    * **Hit Rate of L1** = 0.95, so **Miss Rate of L1** = 0.05
+    * $T_{L1}$ = L1 cache access time (assumed to be negligible compared to the memory access time)
+    * $T_{MM}$ = Main memory access time.
+
+Thus, the EMAT of the original system is:
+
+EMAT_{\text{original}} = T_{L1} + 0.05 \times T_{MM}
+
+Now, let’s compute the **EMAT of the new system** with the smaller L1 cache (hit rate 0.90) and the L2 cache:
+
+EMAT_{\text{new}} = T_{L1} + \left( 1 - \text{Hit Rate of L1} \right) \times (T_{L2} + \left( 1 - \text{Hit Rate of L2} \right) \times T_{MM})
+
+For the new system:
+
+    * **Hit Rate of L1** = 0.90, so **Miss Rate of L1** = 0.10.
+    * The hit rate of the L2 cache is unknown, so let it be **$h_{L2}$**.
+    * $T_{L2}$ = L2 cache access time (we want to find the condition for this to be no greater than half of $T_{MM}$).
+
+For the EMAT of the new system to be equal to the original system, we set:
+  
+  T_{L1} + 0.05 \times T_{MM} = T_{L1} + 0.10 \times (T_{L2} + (1 - h_{L2}) \times T_{MM})
+
+Canceling $T_{L1}$ on both sides:
+  
+  0.05 \times T_{MM} = 0.10 \times (T_{L2} + (1 - h_{L2}) \times T_{MM})
+
+
+Expanding the right-hand side:
+  
+  0.05 \times T_{MM} = 0.10 \times T_{L2} + 0.10 \times (1 - h_{L2}) \times T_{MM}
+
+Now, for the EMATs to be equal, the terms involving $T_{MM}$ on both sides must balance. Let’s isolate the terms involving $T_{MM}$:
+  
+  0.05 = 0.10 \times (1 - h_{L2}) \quad \Rightarrow \quad (1 - h_{L2}) = 0.5
+
+
+Thus, the miss rate of L2 should be 0.5, meaning the hit rate $h_{L2}$ should be:
+  
+  h_{L2} = 0.5
+
+
+So, the access time of the L2 cache should be **no greater than half** of the main memory access time in order for the EMAT to remain the same.
+
+---
+
+### **(b) Determine the minimum hit rate of the L2 cache to achieve the required EMAT.**
+
+Now, let’s determine the **minimum hit rate of the L2 cache** required to achieve the same EMAT.
+
+We have already set up the equation for the EMAT in the new system:
+  
+  EMAT_{\text{new}} = T_{L1} + 0.10 \times (T_{L2} + (1 - h_{L2}) \times T_{MM})
+
+For the new system to achieve the same EMAT as the original, we want:
+
+  EMAT_{\text{new}} = EMAT_{\text{original}}
+
+So we need to solve for the **minimum** value of $h_{L2}$.
+
+We already derived the equation:
+0.05 \times T_{MM} = 0.10 \times T_{L2} + 0.10 \times (1 - h_{L2}) \times T_{MM}
+
+Rearranging:
+0.05 \times T_{MM} - 0.10 \times (1 - h_{L2}) \times T_{MM} = 0.10 \times T_{L2}
+
+Factoring out $T_{MM}$:
+T_{MM} \times (0.05 - 0.10 \times (1 - h_{L2})) = 0.10 \times T_{L2}
+
+
+Now, solving for $h_{L2}$:
+0.05 - 0.10 \times (1 - h_{L2}) = 0.10 \times \frac{T_{L2}}{T_{MM}}
+
+Simplifying further:
+
+0.05 - 0.10 + 0.10 \times h_{L2} = 0.10 \times \frac{T_{L2}}{T_{MM}}
+-0.05 + 0.10 \times h_{L2} = 0.10 \times \frac{T_{L2}}{T_{MM}}
+0.10 \times h_{L2} = 0.05 + 0.10 \times \frac{T_{L2}}{T_{MM}}
+
+Finally, solving for $h_{L2}$:
+h_{L2} = 0.5 + \frac{T_{L2}}{T_{MM}}
+---
+
+
+### **(c) If the actual access time of the L2 cache is 1/10 of the main memory access time, then determine the minimum hit rate of the L2 cache to achieve the required EMAT.**
+
+From the previous formula:
+h_{L2} = 0.5 + \frac{T_{L2}}{T_{MM}}
+
+Given that:
+T_{L2} = \frac{1}{10} \times T_{MM}
+
+Substitute this into the equation:
+h_{L2} = 0.5 + \frac{1}{10}
+h_{L2} = 0.5 + 0.1 = 0.6
+
+### Final Answer:
+
+    * **(b)** The minimum hit rate of the L2 cache required to achieve the same EMAT is $h_{L2} = 0.5$ (50%).
+    * **(c)** If the L2 cache access time is 1/10 of the main memory access time, then the minimum hit rate of the L2 cache required is $h_{L2} = 0.6$ (60%).
+
+
+
+8.
+Let's address each part of the problem step by step, starting with understanding the bit stuffing framing method and the conditions given:
+
+### **Bit Stuffing Framing Method**
+    
+    * The start and end of a frame are indicated by the flag `01^k0`, where `1^k` means `k` consecutive ones, and `0` marks the end of the flag.
+    * **Stuffing**: A `0` bit is inserted whenever `01^(k-1)` (a sequence of `k-1` consecutive ones followed by a `0`) appears in the original data stream. This prevents the flag `01^k0` from being confused with data.
+    * **Destuffing**: If a `0` is preceded by `01^(k-1)` in the transmitted bit stream, the receiver removes the stuffed `0` bit.
+
+---
+
+### **(a) Is it necessary to stuff a 0 bit in `01^(k-1)0`? Justify your answer.**
+  
+  We need to determine whether a `0` bit should be stuffed when the sequence `01^(k-1)0` appears in the data.
+
+#### Step-by-Step Analysis:
+
+  1. **The Flag**: The flag in the framing method is `01^k0`, where `1^k` is `k` consecutive ones. This flag indicates the start and end of the frame.
+  
+  2. **Stuffing Condition**: A `0` is stuffed whenever the sequence `01^(k-1)` appears in the data. 
+  This is because `01^(k-1)` might cause confusion with the flag `01^k0`, so to avoid misinterpretation, we insert a `0` bit between `1^(k-1)` and `0` to break up the possible flag sequence.
+  
+  3. **Analysis of `01^(k-1)0`**:
+  
+     * `01^(k-1)0` is a sequence of `k-1` consecutive `1`s followed by a `0` (and then another `0` at the end).
+     * The key observation here is that **this sequence `01^(k-1)0` is part of the flag sequence `01^k0`**: it almost matches the flag, except for the last `1` in `01^k0`.
+     * **Since `01^(k-1)0` almost matches the flag `01^k0`**, the sequence `01^(k-1)0` could be mistaken for the flag during transmission, so **we must stuff a `0` bit** to avoid this confusion.
+
+#### Conclusion:
+
+* **Yes, it is necessary to stuff a `0` bit** in the sequence `01^(k-1)0` because this sequence resembles the flag `01^k0` and could be misinterpreted as the start or end of a frame.
+
+---
+
+### **(b) In the worst case, how many bits need to be stuffed for a data packet of length L?**
+
+In this part, we need to determine the worst-case scenario for the number of bits that need to be stuffed for a data packet of length `L`.
+
+#### Worst-Case Scenario:
+
+1. **Stuffing Condition**: A `0` bit is stuffed every time the sequence `01^(k-1)` appears in the data stream.
+2. **Worst-case Data Stream*: In the worst case, the data consists of a sequence of `1`s and `0`s such that **every occurrence of `01^(k-1)`** triggers stuffing.
+3. **Maximum Occurrences of `01^(k-1)`**:
+   * The worst-case scenario would be when `1`s appear in such a way that the pattern `01^(k-1)` (which consists of `k-1` consecutive `1`s followed by a `0`) appears as often as possible in the data.
+   * Each `01^(k-1)` would require a `0` to be stuffed between the `1`s and `0` to prevent confusion with the flag `01^k0`.
+   * To maximize the number of stuffed bits, we would want the data to consist of alternating sequences of `1`s and `0`s, specifically designed so that every time we see `01^(k-1)`, a `0` is stuffed
+4. **Number of Stuffed Bits**:
+   * In a worst-case data stream, every occurrence of the sequence `01^(k-1)` will require **1 bit of stuffing**.
+   * If the data stream contains `L` bits, the number of occurrences of `01^(k-1)` would be approximately $L/(k)$, as every `k` bits would potentially form one `01^(k-1)` sequence (since a `k`-bit sequence could contribute one stuffed bit).
+
+Thus, the worst-case number of stuffed bits is:
+\text{Number of stuffed bits} \approx \frac{L}{k}
+
+#### Conclusion:
+
+* **In the worst case, approximately $L / k$ bits need to be stuffed** for a data packet of length `L`, where `k` is the number of consecutive `1`s in the flag pattern `01^k0`.
+
+---
+
+### Final Answer:
+
+* **(a)** Yes, it is necessary to stuff a `0` bit in `01^(k-1)0` to avoid confusion with the flag `01^k0`.
+* **(b)** In the worst case, approximately $L / k$ bits need to be stuffed for a data packet of length `L`.
+
+
+
+
+9.
+
+
+### **Given:**
+  
+  * **Cylinders:** 0 (innermost) to 511 (outermost)
+  * **Initial head position:** 120
+  * **Initial direction:** Outward (towards higher-numbered cylinders)
+  * **Seek time:** 1 ms per cylinder
+  * **Neglect read time.**
+
+---
+
+### **Requests:**
+
+| Request | Arrival Time (ms) | Cylinder No. |
+| ------- | ----------------- | ------------ |
+| r1      | 1                 | 480          |
+| r2      | 10                | 240          |
+| r3      | 15                | 360          |
+| r4      | 20                | 100          |
+| r5      | 25                | 140          |
+| r6      | 30                | 185          |
+
+---
+
+## **(a) Disk Scheduling Algorithms**
+
+### **(i) LOOK Algorithm**
+
+#### **LOOK:**
+  
+  * Starts at 120, moves outward.
+  * Services all requests in that direction (that have arrived *by the time the head gets to their cylinder*).
+  * Then reverses and services pending requests on the way back.
+
+Let’s simulate time and cylinder movement.
+
+#### Step-by-step simulation:
+
+    * **Start at 120 at t = 0 ms**, moving outward.
+    * It takes 1 ms to move 1 cylinder. So:
+    
+    | Time (ms) | Head Position | Requests Available |
+    | --------- | ------------- | ------------------ |
+    | 1         | 121           | r1 arrives (480)   |
+    | 10        | 130           | r2 arrives (240)   |
+    | 15        | 135           | r3 arrives (360)   |
+    | 20        | 140           | r4 arrives (100)   |
+    | 25        | 145           | r5 arrives (140)   |
+    | 30        | 150           | r6 arrives (185)   |
+    
+We collect all outward (≥120) requests:
+  
+  * r1 (480), r2 (240), r3 (360), r5 (140), r6 (185)
+  
+Process as the head moves **outwards**:
+    
+    * At **140** (t=20), service **r5**
+    * At **185** (t=65), service **r6**
+    * At **240** (t=120), service **r2**
+    * At **360** (t=240), service **r3**
+    * At **480** (t=360), service **r1**
+
+Then **turn around** and move inward:
+
+* At **100** (t=740), service **r4**
+
+✅ **LOOK Order:** r5, r6, r2, r3, r1, r4
+
+---
+
+
+### **(ii) Preemptive SSTF**
+
+**SSTF (Preemptive):** On every new arrival, service the closest available request from current head position.
+
+
+* t = 0, head at 120, no request yet.
+
+---
+
+| Time                                                                                                                | Action |
+| ------------------------------------------------------------------------------------------------------------------- | ------ |
+| t = 1 → r1 arrives at 480. Head at 121. Only r1 is available. Go toward r1.                                         |        |
+| t = 10 → r2 arrives at 240. Head at 130. Compare: distance to r1 (480) = 350, r2 (240) = 110. Now go to r2 instead. |        |
+| t = 15 → r3 arrives (360). Head at 135. Closest: r2 (240 = 105), r3 (360 = 225), stay on r2.                        |        |
+| t = 20 → r4 arrives (100). Now r4 is closest to 140, so preempt and go to r4 (distance 40).                         |        |
+| Then go to next nearest: r5 (140), r6 (185), etc.                                                                   |        |
+
+#### Final SSTF Order:
+
+* From 120: r4 (100), r5 (140), r6 (185), r2 (240), r3 (360), r1 (480)
+
+✅ **SSTF Order:** r4, r5, r6, r2, r3, r1
+
+---
+
+## **(b) Show that T\_LOOK(S) ≤ T\_SSTF(S) for any 2 requests at t = 0**
+
+Let’s analyze two requests $x_1$ and $x_2$ in the range \[0, 511], both arriving at **t = 0**.
+
+Let’s assume:
+
+* Head starts at position `H` (say 120, as in earlier).
+* Disk arm is moving **outward**.
+
+---
+
+### **LOOK Behavior:**
+
+* Services requests **in the current direction first**.
+* So if both x₁ and x₂ are **≥ H**, the arm moves outward and services both in that direction.
+* If one is on the way outward, and one inward, it’ll service the outward one first, then reverse and service the inward one.
+
+**LOOK total time = max(distance from H to x₁, x₂)** (plus reverse time if needed).
+
+---
+
+### **SSTF Behavior (Preemptive):**
+
+* Always chooses the **nearest** request, may jump directions frequently.
+
+While SSTF tries to minimize *individual seek times*, it can make the total time **worse** due to frequent direction changes.
+
+---
+
+### **Key Intuition:**
+
+* **LOOK is scan-like**, so it's more efficient when requests are spread and fewer in number (like just two).
+* SSTF, though greedy, **may seek one close request first, then travel far** for the other.
+
+Hence, in all cases, **LOOK will either match or do better** in terms of total seek time.
+
+### ✅ Therefore:
+
+$$
+T_{\text{LOOK}}(S) \leq T_{\text{SSTF}}(S) \text{ for any } x_1, x_2 \in [0, 511]
+$$
+
+
+
+10.
+To find all **triangles** in a directed graph stored as an edge list in a table `G_edges(source, target)`,
+we need to detect **cycles of length 3**, i.e., sequences of three directed edges like:
+
+```
+    (source1 → target1),
+    (target1 → target2),
+    (target2 → source1)
+```
+
+This forms a triangle:
+  `source1 → target1 → target2 → source1`
+
+---
+
+### ✅ **SQL Query to Find Triangles**
+
+```sql
+    SELECT DISTINCT 
+        e1.source AS node1, 
+        e1.target AS node2, 
+        e2.target AS node3
+    FROM 
+        G_edges e1
+    JOIN 
+        G_edges e2 ON e1.target = e2.source
+    JOIN 
+        G_edges e3 ON e2.target = e3.source
+    WHERE 
+        e3.target = e1.source
+        AND e1.source < e1.target
+        AND e1.source < e2.target;
+```
+
+---
+
+### 🔍 **Explanation**
+
+* **e1, e2, e3** represent the three edges forming a triangle.
+* We join edges such that:
+
+    * `e1: A → B`
+    * `e2: B → C`
+    * `e3: C → A` — completing the triangle
+* The final condition `e3.target = e1.source` ensures the cycle closes.
+* The `AND e1.source < e1.target AND e1.source < e2.target` part helps:
+
+  * **Avoid duplicate triangles** with the same nodes in different orderings.
+
+---
+
+### ✅ **Correctness Justification**
+
+This query finds all triples `(A, B, C)` such that:
+
+* There is a directed edge from A to B
+* A directed edge from B to C
+* A directed edge from C back to A
+
+Thus, it captures exactly all **directed triangles** in the graph.
+
+
+Let’s use:
+E: relation representing G_edges(source, target)
+
+We define three copies of the edge relation with renamed attributes:
+
+𝐸1:=𝜌𝐴→𝑠𝑜𝑢𝑟𝑐𝑒,𝐵→𝑡𝑎𝑟𝑔𝑒𝑡(𝐸)
+𝐸2:=𝜌𝐵→𝑠𝑜𝑢𝑟𝑐𝑒,𝐶→𝑡𝑎𝑟𝑔𝑒𝑡(𝐸)
+𝐸3:=𝜌𝐶→𝑠𝑜𝑢𝑟𝑐𝑒,𝐴→𝑡𝑎𝑟𝑔𝑒𝑡(𝐸)
+
+Now, join these to find cycles of the form A → B → C → A:
+
+𝑇:=𝜋𝐴,𝐵,𝐶(𝜎𝐸1.𝐵=𝐸2.𝐵∧𝐸2.𝐶=𝐸3.𝐶∧𝐸3.𝐴=𝐸1.𝐴(𝐸1⋈𝐸2⋈𝐸3))
+T:=πA,B,C​(σ E1​.B=E2​.B ∧ E2.C = E3.C ∧ E3.A=E1.A​(E1​⋈E2​⋈E3​))
+
+
+
+
+
